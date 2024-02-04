@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Tonny-Francis/api-base-golang/router")
+	"github.com/Tonny-Francis/api-base-golang/server")
 
 func main() {
-	router.InitRouters()
+	server.InitRouters()
 }

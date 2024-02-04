@@ -1,6 +1,7 @@
-package router
+package server
 
 import (
+	"github.com/Tonny-Francis/api-base-golang/routers/exampleRouter"
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,7 +10,7 @@ func InitRouters() {
 
 	apiV1Router := router.Group("/v1")
 
-	exampleRouter(apiV1Router)
+	exampleRouter.ExampleRouter(apiV1Router)
 
 	router.Run(":8000")
 }

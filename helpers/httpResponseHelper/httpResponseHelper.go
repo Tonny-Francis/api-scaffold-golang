@@ -1,4 +1,4 @@
-package httpResponse
+package httpResponseHelper
 
 import (
 	"github.com/gin-gonic/gin"
