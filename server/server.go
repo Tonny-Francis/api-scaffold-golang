@@ -20,6 +20,6 @@ func InitRouters() {
 	err := router.Run(":" + envConfig.GetEnvConfig().PORT)
 
 	if err != nil {
-		loggerHelper.Logger.Errorf("error initializing router: %v", err)
+		loggerHelper.Logger.Errorf("Error initializing server: %v", err)
 	}
 }
