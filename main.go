@@ -14,7 +14,7 @@ func main() {
 	err := envConfig.InitEnvConfig()
 	
 	if err != nil {
-		loggerHelper.Logger.Errorf("error initializing environment configuration: %v", err)
+		loggerHelper.Logger.Errorf("Error initializing environment configuration: %v", err)
 		return
 	}
 	
