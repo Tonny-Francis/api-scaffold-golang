@@ -8,11 +8,11 @@ import (
 
 func main() {
 	// Initialize Logger
-	loggerHelper.InitLogger("API")
+	loggerHelper.InitLogger()
 
 	// Initialize Environment Configuration
 	err := envConfig.InitEnvConfig()
-
+	
 	if err != nil {
 		loggerHelper.Logger.Errorf("error initializing environment configuration: %v", err)
 		return
