@@ -4,24 +4,38 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var responseCodes = map[string]int{
+var ResponseCodes = map[string]int{
 	"OK": 200,
 	"CREATED": 201,
 	"NO_CONTENT": 204,
 }
 
-func httpResponse(c *gin.Context, code int, json interface{}) {
-	c.JSON(code, json)
+type HttpResponse struct {
+	StatusCode int
+	Payload    interface{}
 }
 
-func Ok(c *gin.Context, json interface{}) {
-	httpResponse(c, responseCodes["OK"], json)
+func httpResponse(c *gin.Context, response HttpResponse) {
+	c.JSON(response.StatusCode, response.Payload)
 }
 
-func Created(c *gin.Context, json interface{}) {
-	httpResponse(c, responseCodes["CREATED"], json)
+func Ok(c *gin.Context, json interface{}) HttpResponse {
+	return HttpResponse{
+		StatusCode: ResponseCodes["OK"],
+		Payload: json,
+	}
 }
 
-func NoContent(c *gin.Context) {
-	httpResponse(c, responseCodes["NO_CONTENT"], nil)
+func Created(c *gin.Context, json interface{}) HttpResponse {
+	return HttpResponse{
+		StatusCode: ResponseCodes["CREATED"],
+		Payload: json,
+	}
+}
+
+func NoContent(c *gin.Context) HttpResponse {
+	return HttpResponse{
+		StatusCode: ResponseCodes["NO_CONTENT"],
+		Payload: nil,
+	}
 }

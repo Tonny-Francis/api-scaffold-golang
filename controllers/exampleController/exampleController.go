@@ -6,7 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Get(c *gin.Context) {
+func Get(c *gin.Context) (interface{}, error) {
 	loggerHelper.Logger.Info("Hello World")
-	httpResponseHelper.Ok(c, gin.H{"message": "Hello World"})
+
+	return httpResponseHelper.Ok(c, gin.H{"message": "Hello World"}), nil
 }
