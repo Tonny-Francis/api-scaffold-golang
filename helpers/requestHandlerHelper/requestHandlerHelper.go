@@ -3,17 +3,13 @@ package requestHandlerHelper
 import (
 	"encoding/json"
 	"net/http"
+
+	"github.com/Tonny-Francis/api-base-golang/helpers/httpErrorHelper"
 	"github.com/Tonny-Francis/api-base-golang/helpers/httpResponseHelper"
 	"github.com/Tonny-Francis/api-base-golang/helpers/loggerHelper"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
-
-type HttpError struct {
-	StatusCode int
-	Message    string
-	error
-}
 
 func RequestHandler(controller func(c *gin.Context) (interface{}, error)) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -44,8 +40,8 @@ func errorMiddleware(err error, c *gin.Context) {
 	case *json.SyntaxError, *json.UnmarshalTypeError:
 		statusCode = http.StatusBadRequest
 		message = map[string]interface{}{"error": "Invalid JSON"}
-	case HttpError:
-		httpErr := err.(HttpError)
+	case httpErrorHelper.HttpError:
+		httpErr := err.(httpErrorHelper.HttpError)
 		statusCode = httpErr.StatusCode
 		message = map[string]interface{}{"message": httpErr.Message}
 	default:

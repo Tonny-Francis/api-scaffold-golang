@@ -15,10 +15,6 @@ type HttpResponse struct {
 	Payload    interface{}
 }
 
-func httpResponse(c *gin.Context, response HttpResponse) {
-	c.JSON(response.StatusCode, response.Payload)
-}
-
 func Ok(c *gin.Context, json interface{}) HttpResponse {
 	return HttpResponse{
 		StatusCode: ResponseCodes["OK"],

@@ -17,44 +17,71 @@ var errorCodes = map[string]int{
 	"NOT_IMPLEMENTED":       501,
 }
 
-func httpError(c *gin.Context, code int, message string) {
-	c.JSON(code, gin.H{
-		"message": message,
-	})
+type HttpError struct {
+	StatusCode int
+	Message    string
+	error
 }
 
-func BadRequest(c *gin.Context, message string) {
-	httpError(c, errorCodes["BAD_REQUEST"], message)
+func BadRequest(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["BAD_REQUEST"],
+		Message: message,
+	}
 }
 
-func Unauthorized(c *gin.Context, message string) {
-	httpError(c, errorCodes["UNAUTHORIZED"], message)
+func Unauthorized(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["UNAUTHORIZED"],
+		Message: message,
+	}
 }
 
-func Forbidden(c *gin.Context, message string) {
-	httpError(c, errorCodes["FORBIDDEN"], message)
+func Forbidden(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["FORBIDDEN"],
+		Message: message,
+	}
 }
 
-func NotFound(c *gin.Context, message string) {
-	httpError(c, errorCodes["NOT_FOUND"], message)
+func NotFound(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["NOT_FOUND"],
+		Message: message,
+	}
 }
 
-func InternalServerError(c *gin.Context, message string) {
-	httpError(c, errorCodes["INTERNAL_SERVER_ERROR"], message)
+func InternalServerError(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["INTERNAL_SERVER_ERROR"],
+		Message: message,
+	}
 }
 
-func Duplicated(c *gin.Context, message string) {
-	httpError(c, errorCodes["DUPLICATED"], message)
+func Duplicated(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["DUPLICATED"],
+		Message: message,
+	}
 }
 
-func UnprocessableEntity(c *gin.Context, message string) {
-	httpError(c, errorCodes["UNPROCESSABLE_ENTITY"], message)
+func UnprocessableEntity(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["UNPROCESSABLE_ENTITY"],
+		Message: message,
+	}
 }
 
-func TooManyRequests(c *gin.Context, message string) {
-	httpError(c, errorCodes["TOO_MANY_REQUESTS"], message)
+func TooManyRequests(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["TOO_MANY_REQUESTS"],
+		Message: message,
+	}
 }
 
-func ServiceUnavailable(c *gin.Context, message string) {
-	httpError(c, errorCodes["SERVICE_UNAVAILABLE"], message)
+func ServiceUnavailable(c *gin.Context, message string) HttpError {
+	return HttpError{
+		StatusCode: errorCodes["SERVICE_UNAVAILABLE"],
+		Message: message,
+	}
 }
