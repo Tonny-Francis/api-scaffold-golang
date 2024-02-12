@@ -40,14 +40,14 @@ func stopServer() {
 	}
 }
 
-func Init(m *testing.M) {
+func Init(m *testing.M) int {
 	startServer()
 
 	exitCode := m.Run()
 
-	stopServer()
+	//stopServer()
 
-	os.Exit(exitCode)
+	return exitCode
 }
 
 func TestRoute(t *testing.T, test string, method string, path string, expectedStatus int) {
