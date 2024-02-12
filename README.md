@@ -4,7 +4,7 @@ Bem-vindo ao projeto API Base Golang! Este projeto é uma estrutura básica para
 
 ## Requisitos
 
-Certifique-se de que o seguinte software esteja instalado antes de começar:
+Certifique-se de que os seguintes softwares estejam instalados antes de começar:
 
 - [Go](https://golang.org/dl/)
 - [Make](https://www.gnu.org/software/make/)
