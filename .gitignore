@@ -10,6 +10,7 @@
 
 # Test binary, built with `go test -c`
 *.test
+gin-bin
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
@@ -21,4 +22,7 @@
 go.work
 
 # Ignore the local .env file
-.env
+*.env
+
+# Ignore tmp files
+tmp
