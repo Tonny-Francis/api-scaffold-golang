@@ -1,13 +1,14 @@
 package requestHandlerHelper
 
 import (
-	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/Tonny-Francis/api-base-golang/helpers/httpErrorHelper"
 	"github.com/Tonny-Francis/api-base-golang/helpers/httpResponseHelper"
 	"github.com/Tonny-Francis/api-base-golang/helpers/loggerHelper"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 )
 
@@ -35,11 +36,14 @@ func RequestHandler(controller func(c *gin.Context) (interface{}, error)) gin.Ha
 func errorMiddleware(err error, c *gin.Context) {
 	var statusCode int
 	var message interface{}
+	fmt.Printf("Tipo do Erro: %T\n", err)
 
+	loggerHelper.Logger.Error(err)
 	switch err.(type) {
-	case *json.SyntaxError, *json.UnmarshalTypeError:
+	case validator.ValidationErrors:
+		validationErr := err.(validator.ValidationErrors)
 		statusCode = http.StatusBadRequest
-		message = map[string]interface{}{"error": "Invalid JSON"}
+		message = map[string]interface{}{"message": validationErr.Error()}
 	case httpErrorHelper.HttpError:
 		httpErr := err.(httpErrorHelper.HttpError)
 		statusCode = httpErr.StatusCode
