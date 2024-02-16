@@ -15,7 +15,16 @@ func InitRouters() {
 
 	apiV1Router := router.Group("/v1")
 
+	// Router health check
+	apiV1Router.GET("/healthz", func(c *gin.Context) {
+		c.JSON(200, gin.H{"status": "ok"})
+	})
+
+	// Routers
+
 	exampleRouter.ExampleRouter(apiV1Router)
+
+	// Start server
 
 	err := router.Run(":" + envConfig.GetEnvConfig().PORT)
 
