@@ -1,6 +1,0 @@
-.env
-.dockerignore
-Dockerfile
-README.md
-.gitignore
-tmp
