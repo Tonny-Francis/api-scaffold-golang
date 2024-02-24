@@ -1,0 +1,53 @@
+package container
+
+import (
+	"context"
+
+	"github.com/Tonny-Francis/api-base-golang/pkg/core/env"
+	"github.com/Tonny-Francis/api-base-golang/pkg/core/logger"
+	"github.com/Tonny-Francis/api-base-golang/pkg/core/router"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+)
+
+type components struct {
+	Logger *logrus.Logger
+	Env    *env.Env
+	Router *gin.Engine
+}
+
+type Dependencies struct {
+	Components components
+}
+
+func New(ctx context.Context) (context.Context, *Dependencies, error) {
+	cmps, err := setupComponents(ctx)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	deps := Dependencies{
+		Components: *cmps,
+	}
+
+	return ctx, &deps, nil
+}
+
+func setupComponents(ctx context.Context) (*components, error) {
+	logger := logger.InitLogger()
+
+	env, err := env.InitEnv(logger)
+
+	if err != nil {
+		return nil, err
+	}
+
+	router := router.InitGin(env)
+
+	return &components{
+		Logger: logger,
+		Env:    env,
+		Router: router,
+	}, nil
+}
