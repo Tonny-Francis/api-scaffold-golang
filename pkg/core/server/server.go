@@ -26,7 +26,7 @@ func Run(ctx context.Context, deps *container.Dependencies, router *gin.Engine) 
 
 	deps.Components.Logger.Infof("Server started on port %s\n", deps.Components.Env.PORT)
 
-	sig := make(chan os.Signal)
+	sig := make(chan os.Signal, 1)
 
 	signal.Notify(sig, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
@@ -42,10 +42,7 @@ func Run(ctx context.Context, deps *container.Dependencies, router *gin.Engine) 
 		deps.Components.Logger.Fatalf("Server forced to shutdown: %s\n", err)
 	}
 
-	select {
-	case <-ctx.Done():
-		deps.Components.Logger.Println("Server timeout")
-	}
+	<-sig
 
 	deps.Components.Logger.Println("Server exiting")
 }
