@@ -24,6 +24,8 @@ func Run(ctx context.Context, deps *container.Dependencies, router *gin.Engine) 
 		}
 	}()
 
+	deps.Components.Logger.Infof("Server started on port %s\n", deps.Components.Env.PORT)
+
 	sig := make(chan os.Signal)
 
 	signal.Notify(sig, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
