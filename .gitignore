@@ -1,1 +1,8 @@
+# Exlude the .env file from git
 env/.env
+
+# Exlude the bin folder from git
+bin/
+
+# Exlude the tmp folder from git
+tmp/
