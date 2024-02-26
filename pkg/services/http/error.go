@@ -1,9 +1,5 @@
 package http
 
-import (
-	"github.com/gin-gonic/gin"
-)
-
 var errorCodes = map[string]int{
 	"BAD_REQUEST":           400,
 	"UNAUTHORIZED":          401,
@@ -23,65 +19,65 @@ type HttpError struct {
 	error
 }
 
-func (r *DefaultError) BadRequest(c *gin.Context, message string) HttpError {
+func (r *DefaultError) BadRequest(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["BAD_REQUEST"],
-		Message: message,
+		Message:    message,
 	}
 }
 
-func (r *DefaultError) Unauthorized(c *gin.Context, message string) HttpError {
+func (r *DefaultError) Unauthorized(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["UNAUTHORIZED"],
-		Message: message,
+		Message:    message,
 	}
 }
 
-func (r *DefaultError) Forbidden(c *gin.Context, message string) HttpError {
+func (r *DefaultError) Forbidden(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["FORBIDDEN"],
-		Message: message,
+		Message:    message,
 	}
 }
 
-func (r *DefaultError) NotFound(c *gin.Context, message string) HttpError {
+func (r *DefaultError) NotFound(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["NOT_FOUND"],
-		Message: message,
+		Message:    message,
 	}
 }
 
-func (r *DefaultError) InternalServerError(c *gin.Context, message string) HttpError {
+func (r *DefaultError) InternalServerError(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["INTERNAL_SERVER_ERROR"],
-		Message: message,
+		Message:    message,
 	}
 }
 
-func (r *DefaultError) Duplicated(c *gin.Context, message string) HttpError {
+func (r *DefaultError) Duplicated(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["DUPLICATED"],
-		Message: message,
+		Message:    message,
 	}
 }
 
-func (r *DefaultError) UnprocessableEntity(c *gin.Context, message string) HttpError {
+func (r *DefaultError) UnprocessableEntity(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["UNPROCESSABLE_ENTITY"],
-		Message: message,
+		Message:    message,
 	}
 }
 
-func (r *DefaultError) TooManyRequests(c *gin.Context, message string) HttpError {
+func (r *DefaultError) TooManyRequests(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["TOO_MANY_REQUESTS"],
-		Message: message,
+		Message:    message,
 	}
 }
 
-func (r *DefaultError) ServiceUnavailable(c *gin.Context, message string) HttpError {
+func (r *DefaultError) ServiceUnavailable(message string) HttpError {
 	return HttpError{
 		StatusCode: errorCodes["SERVICE_UNAVAILABLE"],
-		Message: message,
+		Message:    message,
 	}
 }

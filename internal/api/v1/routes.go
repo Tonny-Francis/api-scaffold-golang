@@ -8,10 +8,12 @@ import (
 )
 
 func Routes(ctx context.Context, deps *container.Dependencies, apiV1Router *gin.RouterGroup) {
+	// Dependencies
 	requestHandler := deps.Services.RequestHandler.RequestHandler
 	logger := deps.Components.Logger
+	example := deps.Services.Example
+	httpResponse := deps.Services.HttpResponse
+
 	// Router health check
-	apiV1Router.GET("/example", requestHandler(logger, func(c *gin.Context) (interface{}, error) {
-		return gin.H{"status": "ok"}, nil
-	}))
+	apiV1Router.GET("/example", requestHandler(logger, example.Get(httpResponse)))
 }

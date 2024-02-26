@@ -5,6 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (r *DefaultHandler) Get(httResponse *http.DefaultResponse, c *gin.Context) (interface{}, error) {
-	return httResponse.Ok(c, gin.H{"message": "Hello, World!"}), nil
+func (r *DefaultHandler) Get(httResponse http.Response) func(c *gin.Context) (interface{}, error) {
+	return func(c *gin.Context) (interface{}, error) {
+		return httResponse.Ok(gin.H{"message": "Hello, World!"}), nil
+	}
 }

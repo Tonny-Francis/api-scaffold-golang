@@ -6,7 +6,7 @@ import (
 )
 
 type Handler interface {
-	Get(httpResponse *http.DefaultResponse, c *gin.Context) (interface{}, error)
+	Get(httpResponse http.Response) func(c *gin.Context) (interface{}, error)
 }
 
 type DefaultHandler struct{}

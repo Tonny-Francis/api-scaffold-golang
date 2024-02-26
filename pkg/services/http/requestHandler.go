@@ -1,6 +1,7 @@
 package http
 
 import (
+	"errors"
 	"fmt"
 	nethttp "net/http"
 
@@ -17,6 +18,13 @@ func (r *DefaultHandler) RequestHandler(logger *logrus.Logger, controller func(c
 		response, err := controller(c)
 
 		if err != nil {
+			errorMiddleware(err, c, logger)
+			return
+		}
+
+
+		if err == nil && response == nil {
+			err = errors.New("Response is nil and error is nil")
 			errorMiddleware(err, c, logger)
 			return
 		}
