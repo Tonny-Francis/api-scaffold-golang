@@ -6,6 +6,7 @@ import (
 	"github.com/Tonny-Francis/api-base-golang/pkg/core/env"
 	"github.com/Tonny-Francis/api-base-golang/pkg/core/logger"
 	"github.com/Tonny-Francis/api-base-golang/pkg/core/router"
+	"github.com/Tonny-Francis/api-base-golang/pkg/services/http"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -16,8 +17,14 @@ type components struct {
 	Router *gin.Engine
 }
 
+type Services struct {
+	HttpResponse http.Response
+	HttpError    http.Error
+}
+
 type Dependencies struct {
 	Components components
+	Services   Services
 }
 
 func New(ctx context.Context) (context.Context, *Dependencies, error) {
@@ -27,8 +34,14 @@ func New(ctx context.Context) (context.Context, *Dependencies, error) {
 		return nil, nil, err
 	}
 
+	srvs := Services{
+		HttpResponse: http.NewResponseService(),
+		HttpError:    http.NewErrorService(),
+	}
+
 	deps := Dependencies{
 		Components: *cmps,
+		Services:   srvs,
 	}
 
 	return ctx, &deps, nil
