@@ -19,9 +19,10 @@ type components struct {
 }
 
 type Services struct {
-	HttpResponse http.Response
-	HttpError    http.Error
-	Example      example.Handler
+	HttpResponse   http.Response
+	HttpError      http.Error
+	RequestHandler http.Handler
+	Example        example.Handler
 }
 
 type Dependencies struct {
@@ -37,9 +38,10 @@ func New(ctx context.Context) (context.Context, *Dependencies, error) {
 	}
 
 	srvs := Services{
-		HttpResponse: http.NewResponseService(),
-		HttpError:    http.NewErrorService(),
-		Example:      example.NewHandler(),
+		HttpResponse:   http.NewResponseService(),
+		HttpError:      http.NewErrorService(),
+		Example:        example.NewHandler(),
+		RequestHandler: http.NewRequestHandler(),
 	}
 
 	deps := Dependencies{

@@ -1,30 +1,27 @@
-package api
+package http
 
 import (
 	"fmt"
 	nethttp "net/http"
 
-	"github.com/Tonny-Francis/api-base-golang/internal/container"
-	"github.com/Tonny-Francis/api-base-golang/pkg/services/http"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
+	"github.com/sirupsen/logrus"
 )
 
-func RequestHandler(deps *container.Dependencies, controller func(c *gin.Context) (interface{}, error)) gin.HandlerFunc {
+func (r *DefaultHandler) RequestHandler(logger *logrus.Logger, controller func(c *gin.Context) (interface{}, error)) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		logger := deps.Components.Logger
-
 		completeRoute := c.Request.Method + " " + c.FullPath()
 
 		response, err := controller(c)
 
 		if err != nil {
-			errorMiddleware(err, c, deps)
+			errorMiddleware(err, c, logger)
 			return
 		}
 
-		if httpResponse, ok := response.(http.HttpResponse); ok {
+		if httpResponse, ok := response.(HttpResponse); ok {
 			c.JSON(httpResponse.StatusCode, httpResponse.Payload)
 			return
 		}
@@ -34,9 +31,7 @@ func RequestHandler(deps *container.Dependencies, controller func(c *gin.Context
 	}
 }
 
-func errorMiddleware(err error, c *gin.Context, deps *container.Dependencies) {
-	logger := deps.Components.Logger
-
+func errorMiddleware(err error, c *gin.Context, logger *logrus.Logger) {
 	var statusCode int
 	var message interface{}
 	fmt.Printf("Tipo do Erro: %T\n", err)
@@ -47,7 +42,7 @@ func errorMiddleware(err error, c *gin.Context, deps *container.Dependencies) {
 		validationErr := err
 		statusCode = nethttp.StatusBadRequest
 		message = map[string]interface{}{"message": validationErr.Error()}
-	case http.HttpError:
+	case HttpError:
 		httpErr := err
 		statusCode = httpErr.StatusCode
 		message = map[string]interface{}{"message": httpErr.Message}

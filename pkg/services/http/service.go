@@ -1,6 +1,9 @@
 package http
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+)
 
 type Response interface {
 	Ok(c *gin.Context, json interface{}) HttpResponse
@@ -20,10 +23,15 @@ type Error interface {
 	ServiceUnavailable(c *gin.Context, message string) HttpError
 }
 
+type Handler interface {
+	RequestHandler(logger *logrus.Logger, controller func(c *gin.Context) (interface{}, error)) gin.HandlerFunc
+}
+
 type DefaultError struct{}
 
 type DefaultResponse struct{}
 
+type DefaultHandler struct{}
 
 func NewResponseService() Response {
 	return &DefaultResponse{}
@@ -31,4 +39,8 @@ func NewResponseService() Response {
 
 func NewErrorService() Error {
 	return &DefaultError{}
+}
+
+func NewRequestHandler() Handler {
+	return &DefaultHandler{}
 }
