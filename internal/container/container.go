@@ -6,6 +6,7 @@ import (
 	"github.com/Tonny-Francis/api-base-golang/pkg/core/env"
 	"github.com/Tonny-Francis/api-base-golang/pkg/core/logger"
 	"github.com/Tonny-Francis/api-base-golang/pkg/core/router"
+	"github.com/Tonny-Francis/api-base-golang/pkg/domain/example"
 	"github.com/Tonny-Francis/api-base-golang/pkg/services/http"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -20,6 +21,7 @@ type components struct {
 type Services struct {
 	HttpResponse http.Response
 	HttpError    http.Error
+	Example      example.Handler
 }
 
 type Dependencies struct {
@@ -37,6 +39,7 @@ func New(ctx context.Context) (context.Context, *Dependencies, error) {
 	srvs := Services{
 		HttpResponse: http.NewResponseService(),
 		HttpError:    http.NewErrorService(),
+		Example:      example.NewHandler(),
 	}
 
 	deps := Dependencies{
