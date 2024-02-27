@@ -1,0 +1,14 @@
+{
+    "name": "Go Vs Code",
+    "dockerFile": "../Dockerfile.dev",
+    "customizations": {
+        "settings": {
+            "terminal.integrated.shell.linux": "/bin/bash",
+            "go.useLanguageServer": true
+        },
+        "extensions": [
+            "golang.go",
+            "ms-vscode.go"
+        ]
+    }
+}

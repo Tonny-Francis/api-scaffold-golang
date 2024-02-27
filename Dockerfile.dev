@@ -1,0 +1,37 @@
+# Dockerfile.development
+
+# Use a imagem oficial do Go como base
+FROM golang:1.22
+
+# Configuração do ambiente
+ENV GO111MODULE=on
+ENV CGO_ENABLED=0
+
+# Define o diretório de trabalho no contêiner
+WORKDIR /app
+
+# Copia os arquivos de definição de módulos e baixa as dependências
+COPY /go.mod ./
+COPY /go.sum ./
+
+RUN go mod download
+
+# Instalação de ferramentas úteis para desenvolvimento
+RUN apt-get update && apt-get install -y \
+    git \
+    make \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalação do 'air' para hot-reloading
+RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+
+# Instalação do 'golangci-lint'
+RUN curl -sSfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.42.1
+
+
+# Copia todo o conteúdo do diretório do projeto para o contêiner
+COPY . .
+
+# Define o comando padrão para a execução do contêiner (pode ser sobrescrito no momento da execução)
+CMD ["bash"]
