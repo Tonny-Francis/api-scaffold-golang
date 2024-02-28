@@ -8,7 +8,7 @@
 
 The project is an API developed in Golang, using the Gin-Gonic framework to facilitate the creation of routes and handling HTTP requests. The project structure is organized and modular, following the best practices for Golang development.
 
-## Tecnologias Utilizadas
+## Technologies Used
 
 - **Gin-Gonic:** Efficient web framework for building Golang web services.
 - **Docker:** Containers to facilitate deployment and execution in different environments.
@@ -73,7 +73,7 @@ The project is an API developed in Golang, using the Gin-Gonic framework to faci
 - Make sure you have Docker installed.
 - Install Air for automatic reloading during development.
 
-### Configuração do Ambiente
+### Environment Setup
 
 1. Clone the repository.
 2. Run `make build` to compile the project.
