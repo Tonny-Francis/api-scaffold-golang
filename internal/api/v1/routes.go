@@ -13,7 +13,9 @@ func Routes(ctx context.Context, deps *container.Dependencies, apiV1Router *gin.
 	logger := deps.Components.Logger
 	example := deps.Services.Example
 	httpResponse := deps.Services.HttpResponse
+	httpError := deps.Services.HttpError
+	parseSchema := deps.Services.ParseSchema
 
 	// Router health check
-	apiV1Router.GET("/example", requestHandler(logger, example.Get(httpResponse)))
+	apiV1Router.POST("/example/:id", requestHandler(logger, example.Get(httpResponse, httpError, logger, parseSchema)))
 }

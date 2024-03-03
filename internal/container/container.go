@@ -8,6 +8,7 @@ import (
 	"github.com/Tonny-Francis/api-base-golang/pkg/core/router"
 	"github.com/Tonny-Francis/api-base-golang/pkg/domain/example"
 	"github.com/Tonny-Francis/api-base-golang/pkg/services/http"
+	"github.com/Tonny-Francis/api-base-golang/pkg/services/validator"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -22,6 +23,7 @@ type Services struct {
 	HttpResponse   http.Response
 	HttpError      http.Error
 	RequestHandler http.Handler
+	ParseSchema    validator.SchemaValidator
 	Example        example.Handler
 }
 
@@ -40,8 +42,9 @@ func New(ctx context.Context) (context.Context, *Dependencies, error) {
 	srvs := Services{
 		HttpResponse:   http.NewResponseService(),
 		HttpError:      http.NewErrorService(),
-		Example:        example.NewHandler(),
 		RequestHandler: http.NewRequestHandler(),
+		ParseSchema:    validator.NewSchemaValidatorService(),
+		Example:        example.NewHandler(),
 	}
 
 	deps := Dependencies{
