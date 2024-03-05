@@ -3,7 +3,9 @@ package main
 import (
 	"bytes"
 	"net/http"
+	"os/exec"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
@@ -11,14 +13,46 @@ import (
 
 type APITestSuite struct {
 	suite.Suite
-	apiURL string
+	apiURL      string
+	serverReady chan bool
+	serverCmd   *exec.Cmd
+	serverOut   bytes.Buffer
+	serverErr   bytes.Buffer
 }
 
-func (suite *APITestSuite) SetupTest() {
+var serverCmd *exec.Cmd // Declarar a variável fora da função SetupSuite
+
+func (suite *APITestSuite) SetupSuite() {
 	suite.apiURL = "http://localhost:8000"
+	suite.serverReady = make(chan bool)
+
+	// Iniciar o servidor em uma goroutine
+	go func() {
+		suite.serverCmd = exec.Command("go", "run", "main.go")
+		suite.serverCmd.Stdout = &suite.serverOut
+		suite.serverCmd.Stderr = &suite.serverErr
+
+		// Esperar até que o servidor esteja pronto antes de sinalizar
+		go func() {
+			time.Sleep(2 * time.Second) // Ajuste conforme necessário para garantir a inicialização
+			close(suite.serverReady)
+		}()
+
+		suite.serverCmd.Start()
+	}()
+
+	// Aguardar até que o servidor esteja pronto
+	<-suite.serverReady
+}
+
+func (suite *APITestSuite) TearDownSuite() {
+	if serverCmd != nil && serverCmd.Process != nil {
+		serverCmd.Process.Kill()
+	}
 }
 
 func TestSuite(t *testing.T) {
+	// Chamar suite.Run somente após o servidor estar pronto
 	suite.Run(t, new(APITestSuite))
 }
 
