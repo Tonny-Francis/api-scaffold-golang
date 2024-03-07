@@ -29,7 +29,8 @@ The project is an API developed in Golang, using the Gin-Gonic framework to faci
 │   └── api
 ├── cmd
 │   └── api
-│       └── main.go
+│       ├── main.go
+│       └── main_test.go
 ├── env
 ├── go.mod
 ├── go.sum
@@ -54,14 +55,17 @@ The project is an API developed in Golang, using the Gin-Gonic framework to faci
 │   ├── domain
 │   │   └── example
 │   │       ├── handler.go
+│   │       ├── schemas.go
 │   │       └── service.go
 │   └── services
-│       └── http
-│           ├── error.go
-│           ├── requestHandler.go
-│           ├── response.go
+│       ├── http
+│       │   ├── error.go
+│       │   ├── requestHandler.go
+│       │   ├── response.go
+│       │   └── service.go
+│       └── validator
+│           ├── schemaValidator.go
 │           └── service.go
-├── test
 └── tmp
     └── build-errors.log
 ```
