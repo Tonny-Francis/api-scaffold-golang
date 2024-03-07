@@ -10,6 +10,8 @@ RUN printf "%s" "$CONFIGMAP_CONTENT" > $KUBERNETES_CONFIGMAP_PATH
 
 COPY . .
 
+RUN make test
+
 RUN go mod download
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o exec cmd/api/main.go
