@@ -2,53 +2,52 @@ package main
 
 import (
 	"bytes"
+	"context"
+	"log"
 	"net/http"
-	"os/exec"
 	"testing"
 	"time"
 
+	"github.com/Tonny-Francis/api-base-golang/internal/api"
+	"github.com/Tonny-Francis/api-base-golang/internal/container"
+	"github.com/Tonny-Francis/api-base-golang/pkg/core/server"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
 type APITestSuite struct {
 	suite.Suite
-	apiURL      string
-	serverReady chan bool
-	serverCmd   *exec.Cmd
-	serverOut   bytes.Buffer
-	serverErr   bytes.Buffer
+	apiURL string
 }
-
-var serverCmd *exec.Cmd // Declarar a variável fora da função SetupSuite
 
 func (suite *APITestSuite) SetupSuite() {
 	suite.apiURL = "http://localhost:8000"
-	suite.serverReady = make(chan bool)
 
-	// Iniciar o servidor em uma goroutine
+	// Create context
+	ctx := context.Background()
+
+	// Create container
+	ctx, deps, err := container.New(ctx, "test")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Run server in a goroutine
 	go func() {
-		suite.serverCmd = exec.Command("go", "run", "main.go")
-		suite.serverCmd.Stdout = &suite.serverOut
-		suite.serverCmd.Stderr = &suite.serverErr
-
-		// Esperar até que o servidor esteja pronto antes de sinalizar
-		go func() {
-			time.Sleep(2 * time.Second) // Ajuste conforme necessário para garantir a inicialização
-			close(suite.serverReady)
-		}()
-
-		suite.serverCmd.Start()
+		server.Run(
+			ctx,
+			deps,
+			api.Router(ctx, deps),
+		)
 	}()
 
-	// Aguardar até que o servidor esteja pronto
-	<-suite.serverReady
+	// Wait for the server to be ready (you may need to adjust the duration)
+	time.Sleep(2 * time.Second)
 }
 
 func (suite *APITestSuite) TearDownSuite() {
-	if serverCmd != nil && serverCmd.Process != nil {
-		serverCmd.Process.Kill()
-	}
+
 }
 
 func TestSuite(t *testing.T) {

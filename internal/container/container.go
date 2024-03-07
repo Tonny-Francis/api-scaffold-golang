@@ -32,8 +32,8 @@ type Dependencies struct {
 	Services   Services
 }
 
-func New(ctx context.Context) (context.Context, *Dependencies, error) {
-	cmps, err := setupComponents(ctx)
+func New(ctx context.Context, env_mode string) (context.Context, *Dependencies, error) {
+	cmps, err := setupComponents(ctx, env_mode)
 
 	if err != nil {
 		return nil, nil, err
@@ -55,10 +55,10 @@ func New(ctx context.Context) (context.Context, *Dependencies, error) {
 	return ctx, &deps, nil
 }
 
-func setupComponents(ctx context.Context) (*components, error) {
-	logger := logger.InitLogger()
+func setupComponents(ctx context.Context, env_mode string) (*components, error) {
+	logger := logger.InitLogger(env_mode)
 
-	env, err := env.InitEnv(logger)
+	env, err := env.InitEnv(logger, env_mode)
 
 	if err != nil {
 		return nil, err

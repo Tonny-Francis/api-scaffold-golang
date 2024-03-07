@@ -19,9 +19,17 @@ type Env struct {
 var config *Env
 
 // InitEnvConfig carrega e inicializa a configuração do ambiente
-func InitEnv(logger *logrus.Logger) (*Env, error) {
+func InitEnv(logger *logrus.Logger, mode string) (*Env, error) {
 	// Load environment variables from a .env file
-	if err := godotenv.Load("./env/.env"); err != nil {
+	var path string
+
+	if mode == "test" {
+		path = "../../env/.env"
+	} else {
+		path = "./env/.env"
+	}
+
+	if err := godotenv.Load(path); err != nil {
 		logger.Errorf("error loading .env file: %v", err)
 		return nil, err
 	}

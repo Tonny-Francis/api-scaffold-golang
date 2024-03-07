@@ -14,7 +14,7 @@ func main() {
 	ctx := context.Background()
 
 	// Create container
-	ctx, deps, err := container.New(ctx)
+	ctx, deps, err := container.New(ctx, "default")
 
 	if err != nil {
 		log.Fatal(err)
