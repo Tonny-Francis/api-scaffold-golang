@@ -26,19 +26,21 @@ func (r *DefaultEnvironment) InitEnv(logger *logrus.Logger, mode string) (*Env, 
 	}
 
 	if err := godotenv.Load(path); err != nil {
-		logger.Errorf("error loading .env file: %v", err)
-		return nil, err
+		logger.Errorf("Error loading .env file: %v", err)
+		logger.Info("Loading environment variables from system")
+
+		os.Environ()
 	}
 
 	config = &Env{}
 
 	if err := fillFromEnv(config); err != nil {
-		logger.Errorf("error filling configuration from environment variables: %v", err)
+		logger.Errorf("Error filling configuration from environment variables: %v", err)
 		return nil, err
 	}
 
 	if err := validateConfig(config); err != nil {
-		logger.Errorf("validation error: %v", err)
+		logger.Errorf("Validation error: %v", err)
 		return nil, err
 	}
 

@@ -20,7 +20,7 @@ func (r *DefaultServer) Run(ctx context.Context, helpers *container.Helpers, ser
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			helpers.Logger.Fatalf("listen: %s\n", err)
+			helpers.Logger.Fatalf("Listen: %s\n", err)
 		}
 	}()
 

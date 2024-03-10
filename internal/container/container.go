@@ -57,5 +57,7 @@ func New(ctx context.Context, env_mode string) (context.Context, *Helpers, *Serv
 		ParseSchema:    validator.NewSchemaValidatorService(),
 	}
 
+	logger.Info("Container initialized")
+
 	return ctx, helpers, &srvs, &domains, nil
 }
