@@ -10,7 +10,7 @@ import (
 
 	"github.com/Tonny-Francis/api-base-golang/internal/api"
 	"github.com/Tonny-Francis/api-base-golang/internal/container"
-	"github.com/Tonny-Francis/api-base-golang/pkg/core/server"
+	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/server"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
@@ -32,7 +32,7 @@ func (suite *APITestSuite) SetupSuite() {
 	}
 
 	go func() {
-		server.Run(
+		server.NewServerService().Run(
 			ctx,
 			helpers,
 			services,

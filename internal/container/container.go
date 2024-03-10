@@ -3,21 +3,15 @@ package container
 import (
 	"context"
 
-	"github.com/Tonny-Francis/api-base-golang/pkg/core/env"
-	"github.com/Tonny-Francis/api-base-golang/pkg/core/logger"
-	"github.com/Tonny-Francis/api-base-golang/pkg/core/router"
+	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/env"
+	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/logger"
+	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/router"
 	"github.com/Tonny-Francis/api-base-golang/pkg/domain/example"
-	"github.com/Tonny-Francis/api-base-golang/pkg/services/http"
-	"github.com/Tonny-Francis/api-base-golang/pkg/services/validator"
+	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/http"
+	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/validator"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
-
-type components struct {
-	Logger *logrus.Logger
-	Env    *env.Env
-	Router *gin.Engine
-}
 
 type Services struct {
 }
@@ -37,7 +31,11 @@ type Helpers struct {
 }
 
 func New(ctx context.Context, env_mode string) (context.Context, *Helpers, *Services, *Domains, error) {
-	components, err := setupComponents(ctx, env_mode)
+	logger := logger.NewLoggerService().InitLogger(env_mode)
+
+	environments, err := env.NewEnvService().InitEnv(logger, env_mode)
+
+	router := router.NewRouterService().InitGin(environments)
 
 	if err != nil {
 		return nil, nil, nil, nil, err
@@ -50,9 +48,9 @@ func New(ctx context.Context, env_mode string) (context.Context, *Helpers, *Serv
 	}
 
 	helpers := &Helpers{
-		Logger:         components.Logger,
-		Env:            components.Env,
-		Router:         components.Router,
+		Logger:         logger,
+		Env:            environments,
+		Router:         router,
 		HttpResponse:   http.NewResponseService(),
 		HttpError:      http.NewErrorService(),
 		RequestHandler: http.NewRequestHandler(),
@@ -60,22 +58,4 @@ func New(ctx context.Context, env_mode string) (context.Context, *Helpers, *Serv
 	}
 
 	return ctx, helpers, &srvs, &domains, nil
-}
-
-func setupComponents(ctx context.Context, env_mode string) (*components, error) {
-	logger := logger.InitLogger(env_mode)
-
-	env, err := env.InitEnv(logger, env_mode)
-
-	if err != nil {
-		return nil, err
-	}
-
-	router := router.InitGin(env)
-
-	return &components{
-		Logger: logger,
-		Env:    env,
-		Router: router,
-	}, nil
 }

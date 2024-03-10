@@ -20,7 +20,7 @@ var buffer *bytes.Buffer
 var modeMutex sync.Mutex
 var currentMode string
 
-func InitLogger(mode string) *logrus.Logger {
+func (r *DefaultLogger) InitLogger(mode string) *logrus.Logger {
 	modeMutex.Lock()
 	
 	defer modeMutex.Unlock()

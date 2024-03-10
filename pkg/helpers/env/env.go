@@ -16,7 +16,7 @@ type Env struct {
 
 var config *Env
 
-func InitEnv(logger *logrus.Logger, mode string) (*Env, error) {
+func (r *DefaultEnvironment) InitEnv(logger *logrus.Logger, mode string) (*Env, error) {
 	var path string
 
 	if mode == "test" {

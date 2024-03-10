@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Run(ctx context.Context, helpers *container.Helpers, services *container.Services, domains *container.Domains, router *gin.Engine) {
+func (r *DefaultServer) Run(ctx context.Context, helpers *container.Helpers, services *container.Services, domains *container.Domains, router *gin.Engine) {
 	server := &http.Server{
 		Addr:    ":" + helpers.Env.PORT,
 		Handler: router,

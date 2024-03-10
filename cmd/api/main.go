@@ -6,7 +6,7 @@ import (
 
 	"github.com/Tonny-Francis/api-base-golang/internal/api"
 	"github.com/Tonny-Francis/api-base-golang/internal/container"
-	"github.com/Tonny-Francis/api-base-golang/pkg/core/server"
+	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/server"
 )
 
 func main() {
@@ -18,7 +18,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server.Run(
+	server.NewServerService().Run(
 		ctx,
 		helpers,
 		services,
