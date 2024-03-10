@@ -12,19 +12,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Run(ctx context.Context, deps *container.Dependencies, router *gin.Engine) {
+func Run(ctx context.Context, helpers *container.Helpers, services *container.Services, domains *container.Domains, router *gin.Engine) {
 	server := &http.Server{
-		Addr:    ":" + deps.Components.Env.PORT,
+		Addr:    ":" + helpers.Env.PORT,
 		Handler: router,
 	}
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			deps.Components.Logger.Fatalf("listen: %s\n", err)
+			helpers.Logger.Fatalf("listen: %s\n", err)
 		}
 	}()
 
-	deps.Components.Logger.Infof("Server started on port %s\n", deps.Components.Env.PORT)
+	helpers.Logger.Infof("Server started on port %s\n", helpers.Env.PORT)
 
 	sig := make(chan os.Signal, 1)
 
@@ -32,17 +32,17 @@ func Run(ctx context.Context, deps *container.Dependencies, router *gin.Engine) 
 
 	<-sig
 
-	deps.Components.Logger.Println("Shutting down server...")
+	helpers.Logger.Println("Shutting down server...")
 
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 
 	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
-		deps.Components.Logger.Fatalf("Server forced to shutdown: %s\n", err)
+		helpers.Logger.Fatalf("Server forced to shutdown: %s\n", err)
 	}
 
 	<-sig
 
-	deps.Components.Logger.Println("Server exiting")
+	helpers.Logger.Println("Server exiting")
 }

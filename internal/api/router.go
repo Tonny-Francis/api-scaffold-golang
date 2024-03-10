@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Router(ctx context.Context, deps *container.Dependencies) *gin.Engine {
-	router := deps.Components.Router
+func Router(ctx context.Context, helpers *container.Helpers, services *container.Services, domains *container.Domains) *gin.Engine {
+	router := helpers.Router
 
 	router.GET("/healthz", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
@@ -17,7 +17,7 @@ func Router(ctx context.Context, deps *container.Dependencies) *gin.Engine {
 
 	apiV1Router := router.Group("/v1")
 
-	v1.Routes(ctx, deps, apiV1Router)
+	v1.Routes(ctx, helpers, services, domains, apiV1Router)
 
 	return router
 }

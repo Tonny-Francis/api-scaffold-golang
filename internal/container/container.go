@@ -20,39 +20,46 @@ type components struct {
 }
 
 type Services struct {
+}
+
+type Domains struct {
+	Example example.Handler
+}
+
+type Helpers struct {
+	Logger         *logrus.Logger
+	Env            *env.Env
+	Router         *gin.Engine
 	HttpResponse   http.Response
 	HttpError      http.Error
 	RequestHandler http.Handler
 	ParseSchema    validator.SchemaValidator
-	Example        example.Handler
 }
 
-type Dependencies struct {
-	Components components
-	Services   Services
-}
-
-func New(ctx context.Context, env_mode string) (context.Context, *Dependencies, error) {
-	cmps, err := setupComponents(ctx, env_mode)
+func New(ctx context.Context, env_mode string) (context.Context, *Helpers, *Services, *Domains, error) {
+	components, err := setupComponents(ctx, env_mode)
 
 	if err != nil {
-		return nil, nil, err
+		return nil, nil, nil, nil, err
 	}
 
-	srvs := Services{
+	srvs := Services{}
+
+	domains := Domains{
+		Example: example.NewHandler(),
+	}
+
+	helpers := &Helpers{
+		Logger:         components.Logger,
+		Env:            components.Env,
+		Router:         components.Router,
 		HttpResponse:   http.NewResponseService(),
 		HttpError:      http.NewErrorService(),
 		RequestHandler: http.NewRequestHandler(),
 		ParseSchema:    validator.NewSchemaValidatorService(),
-		Example:        example.NewHandler(),
 	}
 
-	deps := Dependencies{
-		Components: *cmps,
-		Services:   srvs,
-	}
-
-	return ctx, &deps, nil
+	return ctx, helpers, &srvs, &domains, nil
 }
 
 func setupComponents(ctx context.Context, env_mode string) (*components, error) {

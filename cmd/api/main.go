@@ -10,20 +10,19 @@ import (
 )
 
 func main() {
-	// Create context
 	ctx := context.Background()
 
-	// Create container
-	ctx, deps, err := container.New(ctx, "default")
+	ctx, helpers, services, domains, err := container.New(ctx, "default")
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Run server
 	server.Run(
 		ctx,
-		deps,
-		api.Router(ctx, deps),
+		helpers,
+		services,
+		domains,
+		api.Router(ctx, helpers, services, domains),
 	)
 }

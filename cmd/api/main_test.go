@@ -23,26 +23,24 @@ type APITestSuite struct {
 func (suite *APITestSuite) SetupSuite() {
 	suite.apiURL = "http://localhost:8000"
 
-	// Create context
 	ctx := context.Background()
 
-	// Create container
-	ctx, deps, err := container.New(ctx, "test")
+	ctx, helpers, services, domains, err := container.New(ctx, "test")
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Run server in a goroutine
 	go func() {
 		server.Run(
 			ctx,
-			deps,
-			api.Router(ctx, deps),
+			helpers,
+			services,
+			domains,
+			api.Router(ctx, helpers, services, domains),
 		)
 	}()
 
-	// Wait for the server to be ready (you may need to adjust the duration)
 	time.Sleep(2 * time.Second)
 }
 
@@ -51,7 +49,6 @@ func (suite *APITestSuite) TearDownSuite() {
 }
 
 func TestSuite(t *testing.T) {
-	// Chamar suite.Run somente após o servidor estar pronto
 	suite.Run(t, new(APITestSuite))
 }
 

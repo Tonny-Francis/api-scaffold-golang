@@ -9,18 +9,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// EnvConfig é a estrutura que armazenará a configuração do ambiente
 type Env struct {
 	GIN_MODE string `validate:"required,oneof=debug release test" default:"release"`
 	PORT     string `validate:"omitempty,number" default:"8000"`
-	// Adicione outros campos conforme necessário
 }
 
 var config *Env
 
-// InitEnvConfig carrega e inicializa a configuração do ambiente
 func InitEnv(logger *logrus.Logger, mode string) (*Env, error) {
-	// Load environment variables from a .env file
 	var path string
 
 	if mode == "test" {
@@ -34,16 +30,13 @@ func InitEnv(logger *logrus.Logger, mode string) (*Env, error) {
 		return nil, err
 	}
 
-	// Criar uma instância da estrutura de configuração
 	config = &Env{}
 
-	// Preencher a configuração dinamicamente a partir das variáveis de ambiente
 	if err := fillFromEnv(config); err != nil {
 		logger.Errorf("error filling configuration from environment variables: %v", err)
 		return nil, err
 	}
 
-	// Validate the configuration
 	if err := validateConfig(config); err != nil {
 		logger.Errorf("validation error: %v", err)
 		return nil, err
@@ -61,11 +54,9 @@ func fillFromEnv(config interface{}) error {
 		fieldName := field.Name
 		fieldValue := configValue.FieldByName(fieldName)
 
-		// Atribuir valores das variáveis de ambiente à estrutura de configuração
 		if envValue := os.Getenv(fieldName); envValue != "" {
 			fieldValue.SetString(envValue)
 		} else {
-			// Definir valor padrão se não houver valor no ambiente
 			defaultValue := field.Tag.Get("default")
 			if defaultValue != "" {
 				fieldValue.SetString(defaultValue)

@@ -7,15 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Routes(ctx context.Context, deps *container.Dependencies, apiV1Router *gin.RouterGroup) {
-	// Dependencies
-	requestHandler := deps.Services.RequestHandler.RequestHandler
-	logger := deps.Components.Logger
-	example := deps.Services.Example
-	httpResponse := deps.Services.HttpResponse
-	httpError := deps.Services.HttpError
-	parseSchema := deps.Services.ParseSchema
-
-	// Router health check
-	apiV1Router.POST("/example/:id", requestHandler(logger, example.Get(httpResponse, httpError, logger, parseSchema)))
+func Routes(ctx context.Context, helpers *container.Helpers, services *container.Services, domains *container.Domains, apiV1Router *gin.RouterGroup) {
+	apiV1Router.POST("/example/:id", helpers.RequestHandler.RequestHandler(helpers.Logger, domains.Example.Get(helpers.HttpResponse, helpers.HttpError, helpers.Logger, helpers.ParseSchema)))
 }
