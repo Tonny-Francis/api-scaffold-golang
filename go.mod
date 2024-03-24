@@ -1,4 +1,4 @@
-module github.com/Tonny-Francis/api-base-golang
+module github.com/Tonny-Francis/api-scaffold-golang
 
 go 1.22.0
 

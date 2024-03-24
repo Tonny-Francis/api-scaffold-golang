@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/env"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/env"
 	"github.com/gin-gonic/gin"
 )
 

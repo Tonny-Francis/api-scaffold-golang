@@ -3,7 +3,7 @@ package v1
 import (
 	"context"
 
-	"github.com/Tonny-Francis/api-base-golang/internal/container"
+	"github.com/Tonny-Francis/api-scaffold-golang/internal/container"
 	"github.com/gin-gonic/gin"
 )
 

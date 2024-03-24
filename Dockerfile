@@ -8,7 +8,12 @@ ENV KUBERNETES_CONFIGMAP_PATH ./configmap.yml
 
 RUN printf "%s" "$CONFIGMAP_CONTENT" > $KUBERNETES_CONFIGMAP_PATH
 
-COPY . .
+COPY go.mod ./
+COPY go.sum ./
+COPY Makefile ./
+COPY pkg ./pkg
+COPY cmd ./cmd
+COPY internal ./internal
 
 RUN make test
 
@@ -16,10 +21,12 @@ RUN go mod download
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o exec cmd/api/main.go
 
+RUN rm -f $KUBERNETES_CONFIGMAP_PATH
+RUN rm -f $OUTPUT_ENV_FILE
+
 FROM alpine:3
 
 COPY --from=build /app/exec /exec
-COPY --from=build /app/env/.env /env/.env
 
 EXPOSE 8000
 

@@ -10,6 +10,6 @@ build:
 run:
 	@air
 
-.PHONE: test
+.PHONY: test
 test:
 	@go test -v cmd/api/main_test.go

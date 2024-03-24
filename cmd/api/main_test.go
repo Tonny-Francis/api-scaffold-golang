@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Tonny-Francis/api-base-golang/internal/api"
-	"github.com/Tonny-Francis/api-base-golang/internal/container"
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/server"
+	"github.com/Tonny-Francis/api-scaffold-golang/internal/api"
+	"github.com/Tonny-Francis/api-scaffold-golang/internal/container"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/server"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )

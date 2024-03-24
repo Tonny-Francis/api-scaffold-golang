@@ -1,8 +1,8 @@
 package example
 
 import (
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/http"
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/validator"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/http"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/validator"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -15,10 +15,10 @@ func (r *DefaultHandler) Get(httResponse http.Response, httpError http.Error, lo
 		var query MyQueryParams
 
 		err := parseSchema.SchemaValidator(c, map[string]interface{}{
-			"body": 	&body,
-			"uri": 	&uri,
-			"header": 	&header,
-			"query": 	&query,
+			"body":   &body,
+			"uri":    &uri,
+			"header": &header,
+			"query":  &query,
 		})
 
 		if err != nil {

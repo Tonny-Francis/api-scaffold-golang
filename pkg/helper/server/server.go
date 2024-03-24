@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/Tonny-Francis/api-base-golang/internal/container"
+	"github.com/Tonny-Francis/api-scaffold-golang/internal/container"
 	"github.com/gin-gonic/gin"
 )
 

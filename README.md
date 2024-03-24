@@ -39,33 +39,36 @@ The project is an API developed in Golang, using the Gin-Gonic framework to faci
 │   │   ├── router.go
 │   │   └── v1
 │   │       └── routes.go
-│   ├── config
 │   └── container
 │       └── container.go
 ├── pkg
-│   ├── core
-│   │   ├── env
-│   │   │   └── env.go
-│   │   ├── logger
-│   │   │   └── logger.go
-│   │   ├── router
-│   │   │   └── mode.go
-│   │   └── server
-│   │       └── server.go
 │   ├── domain
 │   │   └── example
 │   │       ├── handler.go
 │   │       ├── schemas.go
 │   │       └── service.go
-│   └── services
-│       ├── http
-│       │   ├── error.go
-│       │   ├── requestHandler.go
-│       │   ├── response.go
-│       │   └── service.go
-│       └── validator
-│           ├── schemaValidator.go
-│           └── service.go
+│   ├── helper
+│   │   ├── env
+│   │   │   ├── env.go
+│   │   │   └── service.go
+│   │   ├── http
+│   │   │   ├── error.go
+│   │   │   ├── requestHandler.go
+│   │   │   ├── response.go
+│   │   │   └── service.go
+│   │   ├── logger
+│   │   │   ├── logger.go
+│   │   │   └── service.go
+│   │   ├── router
+│   │   │   ├── mode.go
+│   │   │   └── service.go
+│   │   ├── server
+│   │   │   ├── server.go
+│   │   │   └── service.go
+│   │   └── validator
+│   │       ├── schemaValidator.go
+│   │       └── service.go
+│   └── service
 └── tmp
     └── build-errors.log
 ```

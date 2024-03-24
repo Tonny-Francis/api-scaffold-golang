@@ -3,8 +3,8 @@ package api
 import (
 	"context"
 
-	v1 "github.com/Tonny-Francis/api-base-golang/internal/api/v1"
-	"github.com/Tonny-Francis/api-base-golang/internal/container"
+	v1 "github.com/Tonny-Francis/api-scaffold-golang/internal/api/v1"
+	"github.com/Tonny-Francis/api-scaffold-golang/internal/container"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,8 +1,8 @@
 package example
 
 import (
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/http"
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/validator"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/http"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/validator"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )

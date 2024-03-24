@@ -3,12 +3,12 @@ package container
 import (
 	"context"
 
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/env"
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/logger"
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/router"
-	"github.com/Tonny-Francis/api-base-golang/pkg/domain/example"
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/http"
-	"github.com/Tonny-Francis/api-base-golang/pkg/helpers/validator"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/domain/example"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/env"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/http"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/logger"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/router"
+	"github.com/Tonny-Francis/api-scaffold-golang/pkg/helper/validator"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
